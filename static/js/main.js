@@ -36,7 +36,7 @@ function addItem(e) {
         li.appendChild(deleteBtn);
 
         items.appendChild(li);
-
+        successMessage('Item Added!');
         newItem.value = '';
 
     } else {
@@ -51,10 +51,9 @@ function removeItem(e){
      * Remove item from list on button click.
      */
     e.preventDefault();
-    console.log(e.target.parentNode.textContent);
+    let itmName = e.target.parentNode.firstChild.textContent;
     if(e.target.classList.contains('delete')){
-        console.log(1);
-        if(confirm("Are You Sure to delete this?")){
+        if(confirm("Are You Sure to delete " + itmName + "?")){
             var li = e.target.parentNode;
             items.removeChild(li);
             successMessage("Removed Successfully!")
