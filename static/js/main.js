@@ -3,6 +3,7 @@ var items = document.querySelector('#items');
 var filter = document.querySelector('#filter');
 
 
+
 // Event for Adding
 form.addEventListener('submit', addItem);
 // Delete Event
@@ -10,7 +11,7 @@ form.addEventListener('submit', addItem);
 // // Filter Event
 // filter.addEventListener('keyup',filterItem);
 // // Diaplay Data from Form
-// document.addEventListener('DOMContentLoaded',loadData);
+document.addEventListener('DOMContentLoaded', loadData);
 
 
 // Add Item
@@ -23,7 +24,7 @@ function addItem(e) {
     // Get new item from Textbox
     var newItem = document.querySelector('#item');
     // var params =  JSON.stringify({item : newItem.value});
-    var params =  "item=" + newItem.value;
+    var params = "item=" + newItem.value;
 
     // console.log(params);
 
@@ -46,12 +47,12 @@ function addItem(e) {
         // successMessage('Item Added!');
         // newItem.value = '';
         var xhr = new XMLHttpRequest();
-        xhr.open('POST','/',true);
+        xhr.open('POST', '/', true);
         // xhr.setRequestHeader('content-type','application/json');
-        xhr.setRequestHeader('content-type','application/x-www-form-urlencoded'); // for sending form data as key-value pair
-        xhr.onload = function(){
+        xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded'); // for sending form data as key-value pair
+        xhr.onload = function() {
             // console.log(this.responseText);
-            if(this.status == 201){
+            if (this.status == 201) {
                 console.log('Inserted into db');
                 successMessage("Item added Successfully!!")
 
@@ -84,7 +85,7 @@ function addItem(e) {
 // }
 
 // Error Message
-function errorMessage(message){
+function errorMessage(message) {
     /**
      * Used to display a message in danger alert.
      */
@@ -96,15 +97,15 @@ function errorMessage(message){
     var refElement = document.querySelector('#main');
     var container = document.querySelectorAll('.container');
 
-    container[1].insertBefore(msg,refElement);
+    container[1].insertBefore(msg, refElement);
 
-    setTimeout(() =>{
+    setTimeout(() => {
         container[1].removeChild(msg);
-        },3000);
+    }, 3000);
 }
 
 // Success Message
-function successMessage(message){
+function successMessage(message) {
     /**
      * Used to display a message in success alert.
      */
@@ -116,38 +117,50 @@ function successMessage(message){
     var refElement = document.querySelector('#main');
     var container = document.querySelectorAll('.container');
 
-    container[1].insertBefore(msg,refElement);
+    container[1].insertBefore(msg, refElement);
 
-    setTimeout(() =>{
+    setTimeout(() => {
         container[1].removeChild(msg);
-        },3500);
+    }, 3500);
 }
 
-// // Filter Item
-// function filterItem(e){
-//     /**
-//      * Filter the text entered on Searchbar.
-//      */
+// Filter Item
+function filterItem(e) {
+    /**
+     * Filter the text entered on Searchbar.
+     */
+
+    // getting value from filter 
+    var filterText = e.target.value.toLowerCase();
+    // getting all the lis
+    var listItems = items.getElementsByTagName('li');
+    // converting to Array and check
+    Array.from(listItems).forEach(function(item) {
+        let itemName = item.firstChild.textContent.toLowerCase();
+        if (itemName.indexOf(filterText) != -1) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Load Data
+function loadData() {
+    // e.preventDefault();
+    // console.log('load');
+    // // console.log(JSON.stringify(items));
+    // xhr = new XMLHttpRequest();
+    // xhr.open('GET','/',true);
+    // xhr.onload = function(){
+    //     console.log('Within Onload');
+    //     // var items = JSON.parse(this.responseText);
+    //     if(this.status == 200){
+    //         console.log(this.responseText);
+    //     }
+    // }
+    // xhr.send();
+    // console.log(Request.)
+
     
-//     // getting value from filter 
-//     var filterText = e.target.value.toLowerCase();
-//     // getting all the lis
-//     var listItems = items.getElementsByTagName('li');
-//     // converting to Array and check
-//     Array.from(listItems).forEach(function(item){
-//         let itemName = item.firstChild.textContent.toLowerCase();
-//         if (itemName.indexOf(filterText) != -1){
-//             item.style.display = 'block';
-//         }
-//         else{
-//             item.style.display = 'none';
-//         }
-//     });
-// }
-
-// // Load Data
-// function loadData(){
-//     let request = new XMLHttpRequest();
-
-//     let jsonData = JSON.parse();
-// }
+}
