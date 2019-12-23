@@ -2,12 +2,15 @@ var form = document.querySelector('#addForm');
 var items = document.querySelector('#items');
 var filter = document.querySelector('#filter');
 
+
 // Event for Adding
 form.addEventListener('submit', addItem);
 // Delete Event
-items.addEventListener('click',removeItem);
-// Filter Event
-filter.addEventListener('keyup',filterItem)
+// items.addEventListener('click',removeItem);
+// // Filter Event
+// filter.addEventListener('keyup',filterItem);
+// // Diaplay Data from Form
+// document.addEventListener('DOMContentLoaded',loadData);
 
 
 // Add Item
@@ -19,25 +22,44 @@ function addItem(e) {
 
     // Get new item from Textbox
     var newItem = document.querySelector('#item');
+    // var params =  JSON.stringify({item : newItem.value});
+    var params =  "item=" + newItem.value;
+
+    // console.log(params);
 
     if (newItem.value.trim() != '') {
         // Create li
-        var li = document.createElement('li');
+        // var li = document.createElement('li');
         // Add li class
         // li.classList.add('list-group-item');
-        li.className = 'list-group-item';
-        // add the Text to li from form
-        li.appendChild(document.createTextNode(newItem.value));
+        // li.className = 'list-group-item';
+        // // add the Text to li from form
+        // li.appendChild(document.createTextNode(newItem.value));
 
-        var deleteBtn = document.createElement('button');
-        // deleteBtn.classList.add = 'btn btn-danger btn-sm float-right delete';
-        deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-        deleteBtn.appendChild(document.createTextNode('X'));
-        li.appendChild(deleteBtn);
+        // var deleteBtn = document.createElement('button');
+        // // deleteBtn.classList.add = 'btn btn-danger btn-sm float-right delete';
+        // deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+        // deleteBtn.appendChild(document.createTextNode('X'));
+        // li.appendChild(deleteBtn);
 
-        items.appendChild(li);
-        successMessage('Item Added!');
+        // items.appendChild(li);
+        // successMessage('Item Added!');
+        // newItem.value = '';
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','/',true);
+        // xhr.setRequestHeader('content-type','application/json');
+        xhr.setRequestHeader('content-type','application/x-www-form-urlencoded'); // for sending form data as key-value pair
+        xhr.onload = function(){
+            // console.log(this.responseText);
+            if(this.status == 201){
+                console.log('Inserted into db');
+                successMessage("Item added Successfully!!")
+
+            }
+        }
+        xhr.send(params);
         newItem.value = '';
+
 
     } else {
         console.log("Empty Textbox!!");
@@ -45,21 +67,21 @@ function addItem(e) {
     }
 }
 
-// Remove Item
-function removeItem(e){
-    /**
-     * Remove item from list on button click.
-     */
-    e.preventDefault();
-    let itmName = e.target.parentNode.firstChild.textContent;
-    if(e.target.classList.contains('delete')){
-        if(confirm("Are You Sure to delete " + itmName + "?")){
-            var li = e.target.parentNode;
-            items.removeChild(li);
-            successMessage("Removed Successfully!")
-        }
-    }
-}
+// // Remove Item
+// function removeItem(e){
+//     /**
+//      * Remove item from list on button click.
+//      */
+//     e.preventDefault();
+//     let itmName = e.target.parentNode.firstChild.textContent;
+//     if(e.target.classList.contains('delete')){
+//         if(confirm("Are You Sure to delete " + itmName + "?")){
+//             var li = e.target.parentNode;
+//             items.removeChild(li);
+//             successMessage("Removed Successfully!")
+//         }
+//     }
+// }
 
 // Error Message
 function errorMessage(message){
@@ -101,24 +123,31 @@ function successMessage(message){
         },3500);
 }
 
-// Filter Item
-function filterItem(e){
-    /**
-     * Filter the text entered on Searchbar.
-     */
+// // Filter Item
+// function filterItem(e){
+//     /**
+//      * Filter the text entered on Searchbar.
+//      */
     
-    // getting value from filter 
-    var filterText = e.target.value.toLowerCase();
-    // getting all the lis
-    var listItems = items.getElementsByTagName('li');
-    // converting to Array and check
-    Array.from(listItems).forEach(function(item){
-        let itemName = item.firstChild.textContent.toLowerCase();
-        if (itemName.indexOf(filterText) != -1){
-            item.style.display = 'block';
-        }
-        else{
-            item.style.display = 'none';
-        }
-    });
-}
+//     // getting value from filter 
+//     var filterText = e.target.value.toLowerCase();
+//     // getting all the lis
+//     var listItems = items.getElementsByTagName('li');
+//     // converting to Array and check
+//     Array.from(listItems).forEach(function(item){
+//         let itemName = item.firstChild.textContent.toLowerCase();
+//         if (itemName.indexOf(filterText) != -1){
+//             item.style.display = 'block';
+//         }
+//         else{
+//             item.style.display = 'none';
+//         }
+//     });
+// }
+
+// // Load Data
+// function loadData(){
+//     let request = new XMLHttpRequest();
+
+//     let jsonData = JSON.parse();
+// }
